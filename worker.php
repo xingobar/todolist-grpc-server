@@ -14,6 +14,7 @@ $app->make(Kernel::class)->bootstrap();
 $server = $app->make(\Spiral\GRPC\Server::class, [ ['debug' => true]]);
 
 /** 註冊想要的服務 */
+$server->registerService(\Protobuf\Services\TodoServiceInterface::class, app(\App\Grpc\Services\TodoService::class));
 
 /** 啟始 worker */
 $worker = new  Spiral\RoadRunner\Worker(new Spiral\Goridge\StreamRelay(STDIN, STDOUT));

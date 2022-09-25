@@ -18,6 +18,9 @@ server:
 
 grpc:
     listen: tcp://127.0.0.1:8001
+    proto:
+        - protobuf/entity/todo.proto
+        - protobuf/services/todo_services.proto
     workers:
         pool:
             numWorkers: 4
