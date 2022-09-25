@@ -47,4 +47,13 @@ interface TodoServiceInterface extends GRPC\ServiceInterface
     * @throws GRPC\Exception\InvokeException
     */
     public function CreateTodo(GRPC\ContextInterface $ctx, TodoPostRequest $in): TodoResponse;
+
+    /**
+    * @param GRPC\ContextInterface $ctx
+    * @param TodoDestroyRequest $in
+    * @return TodoResponse
+    *
+    * @throws GRPC\Exception\InvokeException
+    */
+    public function DestroyTodo(GRPC\ContextInterface $ctx, TodoDestroyRequest $in): TodoResponse;
 }

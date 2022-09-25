@@ -7,6 +7,7 @@ namespace App\Grpc\Services;
 use Google\Protobuf;
 use Protobuf\Entity;
 use Protobuf\Entity\Todo;
+use Protobuf\Services\TodoDestroyRequest;
 use Protobuf\Services\TodoGetRequest;
 use Protobuf\Services\TodoPostRequest;
 use Protobuf\Services\TodoPutRequest;
@@ -123,6 +124,36 @@ class TodoService implements TodoServiceInterface
            'title' => $in->getTitle(),
            'is_complete' => $in->getIsComplete()
         ]);
+
+        return $response->setTodo(
+            (new Todo())
+                ->setId($todo->id)
+                ->setTitle($todo->title)
+                ->setName($todo->name)
+                ->setIsComplete($todo->is_complete)
+        );
+    }
+
+    /**
+     * @param GRPC\ContextInterface $ctx
+     * @param TodoDestroyRequest $in
+     * @return TodoResponse
+     *
+     * @throws GRPC\Exception\InvokeException
+     */
+    public function DestroyTodo(GRPC\ContextInterface $ctx, TodoDestroyRequest $in): TodoResponse
+    {
+        $response = new TodoResponse();
+
+        if (!$todo = $this->todoService->findById($in->getId())) {
+            return $response->setError(
+                (new Entity\Error())
+                    ->setCode(404)
+                    ->setMessage('找不到資料')
+            );
+        }
+
+        $todo->delete();
 
         return $response->setTodo(
             (new Todo())
