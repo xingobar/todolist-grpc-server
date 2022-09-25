@@ -27,4 +27,9 @@ class TodoService
     {
         return $this->todoRepository->find($id);
     }
+
+    public function create($params)
+    {
+        return $this->todoRepository->create($params);
+    }
 }

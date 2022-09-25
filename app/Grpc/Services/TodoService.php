@@ -8,6 +8,7 @@ use Google\Protobuf;
 use Protobuf\Entity;
 use Protobuf\Entity\Todo;
 use Protobuf\Services\TodoGetRequest;
+use Protobuf\Services\TodoPostRequest;
 use Protobuf\Services\TodoPutRequest;
 use Protobuf\Services\TodoResponse;
 use Protobuf\Services\TodoServiceInterface;
@@ -95,6 +96,32 @@ class TodoService implements TodoServiceInterface
            'title' => $payload->getTitle(),
            'name' => $payload->getName(),
            'is_complete' => $payload->getIsComplete(),
+        ]);
+
+        return $response->setTodo(
+            (new Todo())
+                ->setId($todo->id)
+                ->setTitle($todo->title)
+                ->setName($todo->name)
+                ->setIsComplete($todo->is_complete)
+        );
+    }
+
+    /**
+     * @param GRPC\ContextInterface $ctx
+     * @param TodoPostRequest $in
+     * @return TodoResponse
+     *
+     * @throws GRPC\Exception\InvokeException
+     */
+    public function CreateTodo(GRPC\ContextInterface $ctx, TodoPostRequest $in): TodoResponse
+    {
+        $response = new TodoResponse();
+
+        $todo = $this->todoService->create([
+           'name' => $in->getName(),
+           'title' => $in->getTitle(),
+           'is_complete' => $in->getIsComplete()
         ]);
 
         return $response->setTodo(
