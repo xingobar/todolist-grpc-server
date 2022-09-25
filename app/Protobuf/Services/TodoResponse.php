@@ -13,10 +13,7 @@ use Google\Protobuf\Internal\GPBUtil;
  */
 class TodoResponse extends \Google\Protobuf\Internal\Message
 {
-    /**
-     * Generated from protobuf field <code>repeated .entity.Todo todos = 1;</code>
-     */
-    private $todos;
+    protected $response;
 
     /**
      * Constructor.
@@ -24,7 +21,8 @@ class TodoResponse extends \Google\Protobuf\Internal\Message
      * @param array $data {
      *     Optional. Data for populating the Message object.
      *
-     *     @type array<\Protobuf\Entity\Todo>|\Google\Protobuf\Internal\RepeatedField $todos
+     *     @type \Protobuf\Entity\Todo $todo
+     *     @type \Protobuf\Entity\Error $error
      * }
      */
     public function __construct($data = NULL) {
@@ -33,25 +31,65 @@ class TodoResponse extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>repeated .entity.Todo todos = 1;</code>
-     * @return \Google\Protobuf\Internal\RepeatedField
+     * Generated from protobuf field <code>.entity.Todo todo = 1;</code>
+     * @return \Protobuf\Entity\Todo|null
      */
-    public function getTodos()
+    public function getTodo()
     {
-        return $this->todos;
+        return $this->readOneof(1);
+    }
+
+    public function hasTodo()
+    {
+        return $this->hasOneof(1);
     }
 
     /**
-     * Generated from protobuf field <code>repeated .entity.Todo todos = 1;</code>
-     * @param array<\Protobuf\Entity\Todo>|\Google\Protobuf\Internal\RepeatedField $var
+     * Generated from protobuf field <code>.entity.Todo todo = 1;</code>
+     * @param \Protobuf\Entity\Todo $var
      * @return $this
      */
-    public function setTodos($var)
+    public function setTodo($var)
     {
-        $arr = GPBUtil::checkRepeatedField($var, \Google\Protobuf\Internal\GPBType::MESSAGE, \Protobuf\Entity\Todo::class);
-        $this->todos = $arr;
+        GPBUtil::checkMessage($var, \Protobuf\Entity\Todo::class);
+        $this->writeOneof(1, $var);
 
         return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>.entity.Error error = 2;</code>
+     * @return \Protobuf\Entity\Error|null
+     */
+    public function getError()
+    {
+        return $this->readOneof(2);
+    }
+
+    public function hasError()
+    {
+        return $this->hasOneof(2);
+    }
+
+    /**
+     * Generated from protobuf field <code>.entity.Error error = 2;</code>
+     * @param \Protobuf\Entity\Error $var
+     * @return $this
+     */
+    public function setError($var)
+    {
+        GPBUtil::checkMessage($var, \Protobuf\Entity\Error::class);
+        $this->writeOneof(2, $var);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResponse()
+    {
+        return $this->whichOneof("response");
     }
 
 }

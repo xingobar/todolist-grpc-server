@@ -15,9 +15,18 @@ interface TodoServiceInterface extends GRPC\ServiceInterface
     /**
     * @param GRPC\ContextInterface $ctx
     * @param Protobuf\GPBEmpty $in
+    * @return TodosResponse
+    *
+    * @throws GRPC\Exception\InvokeException
+    */
+    public function ListTodos(GRPC\ContextInterface $ctx, Protobuf\GPBEmpty $in): TodosResponse;
+
+    /**
+    * @param GRPC\ContextInterface $ctx
+    * @param TodoGetRequest $in
     * @return TodoResponse
     *
     * @throws GRPC\Exception\InvokeException
     */
-    public function ListTodos(GRPC\ContextInterface $ctx, Protobuf\GPBEmpty $in): TodoResponse;
+    public function GetById(GRPC\ContextInterface $ctx, TodoGetRequest $in): TodoResponse;
 }

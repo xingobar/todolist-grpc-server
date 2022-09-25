@@ -22,4 +22,9 @@ class TodoService
 
         return $this->todoRepository->get($criteria);
     }
+
+    public function findById(int $id)
+    {
+        return $this->todoRepository->find($id);
+    }
 }
