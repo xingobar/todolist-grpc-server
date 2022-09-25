@@ -1,0 +1,43 @@
+########################################################################################
+#                       THIS IS SAMPLE OF THE CONFIGURATION                            #
+#           IT'S NOT A DEFAULT CONFIGURATION, IT'S JUST A SIMPLE SAMPLE                #
+#       MORE DOCS CAN BE FOUND HERE: <https://roadrunner.dev/docs/intro-config>        #
+########################################################################################
+
+# Hint: RR will replace any config options using reference to environment variables,
+# eg.: `option_key: ${ENVIRONMENT_VARIABLE_NAME}`.
+
+# Important: TCP port numbers for each plugin (rpc, http, etc) must be unique!
+
+version: '2.7'
+rpc:
+    listen: 'tcp://127.0.0.1:6001'
+server:
+    command: 'php worker.php'
+    relay: pipes
+
+grpc:
+    listen: tcp://127.0.0.1:8001
+    workers:
+        pool:
+            numWorkers: 4
+
+# hot reload
+reload:
+    # 間隔幾秒更新
+    interval: 1s
+    # 全域的檔案格式
+    patterns:
+        - .php
+    # 哪些服務要 reload
+    services:
+        grpc:
+            # recursive 搜尋檔案格式
+            recursive: true
+            # 忽略哪些資料夾
+            ignore:
+                - vendor
+            patterns:
+                - .php
+            dirs:
+                - .
