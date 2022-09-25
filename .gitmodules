@@ -1,3 +1,0 @@
-[submodule "app/protobuf"]
-	path = app/protobuf
-	url = git@github.com:xingobar/todolist-grpc-protocol-buffer.git
