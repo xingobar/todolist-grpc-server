@@ -1,0 +1,7 @@
+#/bin/bash
+
+set -e
+
+PLUGIN=/<HOME>/go/bin/protoc-gen-php-grpc
+
+protoc --proto_path=protobuf --php_out=app --grpc_out=app  --plugin=protoc-gen-grpc=$PLUGIN $1;
