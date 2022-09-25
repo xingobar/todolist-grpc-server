@@ -8,6 +8,7 @@ use Google\Protobuf;
 use Protobuf\Entity;
 use Protobuf\Entity\Todo;
 use Protobuf\Services\TodoGetRequest;
+use Protobuf\Services\TodoPutRequest;
 use Protobuf\Services\TodoResponse;
 use Protobuf\Services\TodoServiceInterface;
 use Protobuf\Services\TodosResponse;
@@ -35,13 +36,11 @@ class TodoService implements TodoServiceInterface
 
         $response = new TodosResponse();
 
-        $response->setTodos($todos->map(function($todo) {
+        return $response->setTodos($todos->map(function($todo) {
             return (new Todo())->setId($todo->id)
                     ->setName($todo->name)
                     ->setIsComplete($todo->is_complete);
         })->toArray());
-
-        return $response;
     }
 
     /**
@@ -56,22 +55,54 @@ class TodoService implements TodoServiceInterface
         $response = new TodoResponse();
 
         if (!$todo = $this->todoService->findById($in->getId())) {
-            $response->setError(
+            return $response->setError(
                 (new Entity\Error())
                     ->setCode(404)
                     ->setMessage('找不到資料')
             );
-
-            return $response;
         }
 
-        $response->setTodo(
+        return $response->setTodo(
             (new Todo())
                 ->setId($todo->id)
                 ->setName($todo->name)
                 ->setIsComplete($todo->is_complete)
         );
+    }
 
-        return $response;
+    /**
+     * @param GRPC\ContextInterface $ctx
+     * @param TodoPutRequest $in
+     * @return TodoResponse
+     *
+     * @throws GRPC\Exception\InvokeException
+     */
+    public function UpdateById(GRPC\ContextInterface $ctx, TodoPutRequest $in): TodoResponse
+    {
+        $response = new TodoResponse();
+
+        if (!$todo = $this->todoService->findById($in->getId())) {
+            return $response->setError(
+                (new Entity\Error())
+                    ->setCode(404)
+                    ->setMessage('找不到資料')
+            );
+        }
+
+        $payload = $in->getPayload();
+
+        $todo->update([
+           'title' => $payload->getTitle(),
+           'name' => $payload->getName(),
+           'is_complete' => $payload->getIsComplete(),
+        ]);
+
+        return $response->setTodo(
+            (new Todo())
+                ->setId($todo->id)
+                ->setTitle($todo->title)
+                ->setName($todo->name)
+                ->setIsComplete($todo->is_complete)
+        );
     }
 }

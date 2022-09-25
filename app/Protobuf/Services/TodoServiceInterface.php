@@ -29,4 +29,13 @@ interface TodoServiceInterface extends GRPC\ServiceInterface
     * @throws GRPC\Exception\InvokeException
     */
     public function GetById(GRPC\ContextInterface $ctx, TodoGetRequest $in): TodoResponse;
+
+    /**
+    * @param GRPC\ContextInterface $ctx
+    * @param TodoPutRequest $in
+    * @return TodoResponse
+    *
+    * @throws GRPC\Exception\InvokeException
+    */
+    public function UpdateById(GRPC\ContextInterface $ctx, TodoPutRequest $in): TodoResponse;
 }

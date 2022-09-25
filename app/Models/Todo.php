@@ -18,4 +18,6 @@ class Todo extends Model
     protected $casts = [
       'is_complete' => 'boolean'
     ];
+
+    public $timestamps = false;
 }
